@@ -1,0 +1,9 @@
+c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\SEN_Project_v1.exe
+c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\SEN_Project_v1.pdb
+c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.csprojResolveAssemblyReference.cache
+c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.Properties.Resources.resources
+c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.csproj.GenerateResource.Cache
+c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.exe
+c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.pdb
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.VideoChatting.resources
+c:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.MainIP.resources
