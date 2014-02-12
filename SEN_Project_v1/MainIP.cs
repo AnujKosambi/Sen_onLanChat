@@ -18,11 +18,13 @@ namespace SEN_Project_v1
 {
     public partial class MainIP : Form
     {
-        int REFRESHINTERVAL=3;
+        int REFRESHINTERVAL=10;
         #region INIT
         public static UdpClient receiviedClient= null;
         public static UdpClient sendingClient = null;
-        List<IPAddress> l_ipaddress = null;
+        Dictionary<IPAddress,Boolean> l_ipaddress = null;
+        Dictionary<IPAddress, ListViewItem> list_ipaddress = null;
+
         static int PORT = 1716;
         static int PORT2 = 1617;
         IPEndPoint BROADCAST_SENDING = new IPEndPoint(IPAddress.Parse("255.255.255.255"), PORT);
@@ -36,20 +38,25 @@ namespace SEN_Project_v1
         {
             receiviedClient = new UdpClient(PORT);
             sendingClient = new UdpClient(PORT2);
-            l_ipaddress = new List<IPAddress>();
+            l_ipaddress = new Dictionary<IPAddress, Boolean>();
+            list_ipaddress = new Dictionary<IPAddress, ListViewItem>();
             InitializeComponent();
  
         }
         private void MainIP_Load(object sender, EventArgs e)
         {
+        
 
+            listView.CheckBoxes = true;
             
+            listView.View = View.Details;
             tBroadCast_r = new Thread(new ThreadStart(vrecving_proc));
             tBroadCast_r.Start();
             tMemberRetriving = new Thread(new ThreadStart(() => {
                 while (true)
                 {
-                    sendBroadcastMsg("<#Connect#>");
+
+                    sendBroadcastMsg("<#Connect#>" + Environment.MachineName);
                     Thread.Sleep(1000 * REFRESHINTERVAL);
                 }            
             }));
@@ -68,63 +75,68 @@ namespace SEN_Project_v1
                 data = receiviedClient.Receive(ref receving);
                 string stringData = Encoding.ASCII.GetString(data);
                 System.Diagnostics.Debug.WriteLine("received:" + stringData);
-                if (stringData == "<#Connect#>")
+                if (stringData.StartsWith("<#Connect#>"))
                 {
+                    String pc_name=stringData.Split(new String[] { "<#Connect#>" }, StringSplitOptions.RemoveEmptyEntries)[0];
                     receving.Port = 1716;
                     sendingClient.Connect(receving);
-                    sendingClient.Send(Encoding.ASCII.GetBytes("<\\#Connect#>"),"<\\#Connect#>".Length);
+                    string response_data = "<\\#Connect#>" + Environment.MachineName;
+                    sendingClient.Send(Encoding.ASCII.GetBytes(response_data),response_data.Length);
                     System.Diagnostics.Debug.WriteLine("Added:" + receving.Address);
-                    if (!l_ipaddress.Exists(e => (e == receving.Address)))
-                    {
-                        l_ipaddress.Add(receving.Address);
-                         BeginInvoke((Action)(() =>
-                        {
-                        listView.Items.Add(receving.Address.ToString());
-                        }));
-                    }
-                  //  AddItem(receving.Address);
+
+                    AddItem(receving.Address,pc_name);
                 }
-                else if(stringData == "<\\#Connect#>"){
+                else if(stringData.StartsWith("<\\#Connect#>")){
                     System.Diagnostics.Debug.WriteLine("Added:"+receving.Address);
-                    if (!l_ipaddress.Exists(e => (e == receving.Address)))
-                    {
-                        l_ipaddress.Add(receving.Address);
-                        BeginInvoke((Action)(() =>
-                        {
-                            listView.Items.Add(receving.Address.ToString());
-                        }));
-                    }
-                  //  AddItem(receving.Address);
+                    AddItem(receving.Address, stringData.Split(new String[] { "<\\#Connect#>" }, StringSplitOptions.RemoveEmptyEntries)[0]);
                 }
                 else if (stringData == "<#Disconnect#>")
                 {
-                    if (l_ipaddress.Exists(e => (e == receving.Address)))
-                    {
-                        l_ipaddress.Remove(receving.Address);
-                    }
+                    l_ipaddress.Remove(receving.Address);
+                     BeginInvoke((Action)(() =>
+                {
+                    listView.Items.Remove(list_ipaddress[receving.Address]);
+                }));
                     System.Diagnostics.Debug.WriteLine("Removed:" + receving.Address);
                 }
-                BeginInvoke((Action)(() =>
+                else if (stringData.StartsWith("<#Message#>"))
                 {
-                    statusText.Text = stringData;
-                }));
+                    BeginInvoke((Action)(() =>
+                    {
+                        statusText.Text = stringData.Split(new String[] { "<#Message#>" }, StringSplitOptions.RemoveEmptyEntries)[0];
+                    }));
+                }
+               
               
            
             }
         }
-        private void AddItem(IPAddress ipaddress)
+        private void AddItem(IPAddress ipaddress,String name)
         {
-            String localPath = "";
-            String[] ip_parts=ipaddress.ToString().Split('.');
-            for (int i = 0; i < 4;i++ )
+       
+            bool exist = false;
+            l_ipaddress.TryGetValue(ipaddress, out exist);
+            if (!exist)
             {
-                if(!System.IO.Directory.Exists(localPath+ip_parts[i]));
-                System.IO.Directory.CreateDirectory(localPath+ip_parts[i]);
-                localPath = localPath + ip_parts[i]+"/";
-              
-                
-            }
+                l_ipaddress.Add(ipaddress, true);
+                BeginInvoke((Action)(() =>
+                {
+                    ListViewItem item = new ListViewItem(new String[]{ipaddress.ToString(),name});
+                    list_ipaddress[ipaddress]=(item);
+                    listView.Items.Add(item);
+                    
+
             
+                }));
+                String localPath = "";
+                String[] ip_parts = ipaddress.ToString().Split('.');
+                for (int i = 0; i < 3; i++)
+                {
+                    if (!System.IO.Directory.Exists(localPath + ip_parts[i])) ;
+                    System.IO.Directory.CreateDirectory(localPath + ip_parts[i]);
+                    localPath = localPath + ip_parts[i] + "/";
+                }
+            }
       
         }
         private void sendBroadcastMsg(string data)
@@ -136,9 +148,21 @@ namespace SEN_Project_v1
         }       
         private void sendButton_Click(object sender, EventArgs e)
         {
-            sendingClient.Connect(BROADCAST_SENDING);
-            String data = "<#Message#>" + sendBox.Text + "<#\\Message#>";
-            sendingClient.Send(Encoding.ASCII.GetBytes(data), data.Length);
+            foreach (ListViewItem item in listView.CheckedItems)
+            {
+
+                sendingClient.Connect(new IPEndPoint(list_ipaddress.ElementAt(item.Index).Key, PORT));
+                String data = "<#Message#>" + sendBox.Text + "<#Message#>";
+                sendingClient.Send(Encoding.ASCII.GetBytes(data), data.Length);
+
+            }
+            foreach (ListViewItem item in listView.SelectedItems)
+            {
+
+                sendingClient.Connect(new IPEndPoint(list_ipaddress.ElementAt(item.Index).Key, PORT));
+                String data = "<#Message#>" + sendBox.Text + "<#Message#>";
+                sendingClient.Send(Encoding.ASCII.GetBytes(data), data.Length);
+            }
         }
         string getLocalIP()
         {
@@ -183,6 +207,7 @@ namespace SEN_Project_v1
             SettingControl sc = new SettingControl();
             sc.ShowDialog();
         }
+
     }
 
 }

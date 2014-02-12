@@ -35,12 +35,14 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listView = new System.Windows.Forms.ListView();
-            this.ipaddresses = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ipColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.pcname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusText
             // 
+            this.statusText.Enabled = false;
             this.statusText.Location = new System.Drawing.Point(12, 94);
             this.statusText.Name = "statusText";
             this.statusText.Size = new System.Drawing.Size(315, 20);
@@ -91,7 +93,8 @@
             // listView
             // 
             this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ipaddresses});
+            this.ipColumn,
+            this.pcname});
             this.listView.GridLines = true;
             this.listView.Location = new System.Drawing.Point(12, 175);
             this.listView.Name = "listView";
@@ -99,9 +102,13 @@
             this.listView.TabIndex = 8;
             this.listView.UseCompatibleStateImageBehavior = false;
             // 
-            // ipaddresses
+            // ipColumn
             // 
-            this.ipaddresses.Text = "IP";
+            this.ipColumn.Text = "IP";
+            // 
+            // pcname
+            // 
+            this.pcname.Text = "PC-name";
             // 
             // MainIP
             // 
@@ -136,7 +143,8 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ListView listView;
-        private System.Windows.Forms.ColumnHeader ipaddresses;
+        private System.Windows.Forms.ColumnHeader ipColumn;
+        private System.Windows.Forms.ColumnHeader pcname;
     }
 }
 
