@@ -47,7 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clients.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="MainIP.cs">
       <SubType>Form</SubType>
     </Compile>
