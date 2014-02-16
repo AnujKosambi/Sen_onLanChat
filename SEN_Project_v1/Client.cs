@@ -13,7 +13,7 @@ namespace SEN_Project_v1
         private String username;
         public XmlDocument xmlDoc;
         private string path;
-        public string lastMessage="";
+        public Message lastMessage;
         
         public Client(IPAddress ipaddress,String name)
         {
@@ -69,9 +69,14 @@ namespace SEN_Project_v1
             message.SetAttribute("self", "false");
             message.InnerText = value;
             fetchRootOfMessages().AppendChild(message);
+            lastMessage.time = time;
+            lastMessage.index = CountMessage;
+            lastMessage.value = value;
             CountMessage++;
             UnreadMessages++;
-            lastMessage = value;
+  
+         
+
         }
         public void addMessage2(DateTime time, String value)
         {
@@ -79,6 +84,7 @@ namespace SEN_Project_v1
             message.SetAttribute("index", CountMessage.ToString());
             message.SetAttribute("time", DateTime.Now + "");
             message.SetAttribute("self", "true");
+
             message.InnerText = value;
             fetchRootOfMessages().AppendChild(message);
             xmlDoc.Save(path);
@@ -99,7 +105,11 @@ namespace SEN_Project_v1
             set
             {
                 xmlDoc.SelectSingleNode("//Messages//Count").InnerText = value+"";
-                xmlDoc.Save(path);
+                try
+                {
+                    xmlDoc.Save(path);
+                }
+                catch (Exception e) { }
             }
         }
         public int UnreadMessages
@@ -112,7 +122,11 @@ namespace SEN_Project_v1
             set
             {
                 xmlDoc.SelectSingleNode("//Messages//Unread").InnerText = value + "";
-                xmlDoc.Save(path);
+                try
+                {
+                    xmlDoc.Save(path);
+                }
+                catch (Exception e) { }
             }
         }
     }

@@ -23,12 +23,13 @@ namespace SEN_Project_v1
 
         #region INIT
         Button fileNameButton = null;
+
         public static UdpClient receiviedClient= null;
         public static UdpClient sendingClient = null;
+
         Dictionary<IPAddress,bool> l_selectedaddress = null;
         List<IPAddress> l_ipaddress = null;
         Dictionary<IPAddress,Client> d_client = null;
-       // Dictionary<IPAddress, ListViewItem> list_ipaddress = null;
         Dictionary<IPAddress, Control> list_ipaddress = null;
 
         public static TcpClient tcpSendingClient = null;
@@ -38,9 +39,12 @@ namespace SEN_Project_v1
         static int PORT = 1716;
         static int PORT2 = 1617;
         static int PORTTCP = 12316;
-        IPEndPoint BROADCAST_SENDING = new IPEndPoint(IPAddress.Parse("192.168.67.255"), PORT);
+        
+        IPEndPoint BROADCAST_SENDING = new IPEndPoint(IPAddress.Parse("255.255.255.255"), PORT);
         IPEndPoint BROADCAST_RECIVEING= new IPEndPoint(IPAddress.Any, PORT);
+
         public static VideoChatting _videoChatting;
+        
         Thread tBroadCast_r=null;
         Thread tMemberRetriving = null;
         Thread tTcpReceiving = null;
@@ -135,7 +139,11 @@ namespace SEN_Project_v1
                         {
 
                             list_ipaddress[receving.Address].Controls[0].Controls[2].Text = d_client[receving.Address].UnreadMessages.ToString();
-                            list_ipaddress[receving.Address].Controls[0].Controls[1].Text += " :: " + d_client[receving.Address].lastMessage;
+                            if(list_ipaddress[receving.Address].Controls.Count==3)
+                            {
+                                d_client[receving.Address].UnreadMessages = 0;
+                                addMessageToTLP(d_client[receving.Address].lastMessage,(TableLayoutPanel)list_ipaddress[receving.Address].Controls[2]);
+                            }
                         }));
                     }
                 }
@@ -361,16 +369,10 @@ namespace SEN_Project_v1
                     TableLayoutPanel tlp = new TableLayoutPanel();
                     tlp.AutoSize = true;
                     tlp.Dock = DockStyle.Bottom;
+                    tlp.Margin = new Padding(10);
                     foreach (Client.Message m in d_client[ip].fetchMessages())
                     {
-
-                        Label l = new Label();
-                        if(m.self==true)
-                        l.TextAlign = ContentAlignment.MiddleRight;
-                        l.Text = m.value;
-                        tlp.Controls.Add(l);
-
-
+                        addMessageToTLP(m,tlp);
                     }
                     uc.Controls.Add(tlp);
                 }
@@ -381,6 +383,27 @@ namespace SEN_Project_v1
 
              };
             return uc;
+        }
+        private void addMessageToTLP(Client.Message m,TableLayoutPanel tlp)
+        {
+            Label l = new Label();
+            l.Margin = new Padding(25, 2, 25, 1);
+            l.Anchor = AnchorStyles.Left;
+            l.BorderStyle = BorderStyle.FixedSingle;
+            l.BackColor = Color.DarkBlue;
+            l.ForeColor = Color.White;
+            l.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            if (m.self == true)
+            {
+                l.TextAlign = ContentAlignment.MiddleRight;
+                l.BackColor = Color.DarkGreen;
+
+                l.ForeColor = Color.LightGreen;
+                l.Anchor = AnchorStyles.Right;
+            }
+
+            l.Text = m.value;
+            tlp.Controls.Add(l);
         }
         private void sendBroadcastMsg(string data)
         {
@@ -425,6 +448,12 @@ namespace SEN_Project_v1
                 String data = "<#Message#>" + sendBox.Text + "<#Message#>";
                 sendingClient.Send(Encoding.ASCII.GetBytes(data), data.Length);
                 d_client[ip].addMessage2(DateTime.Now, sendBox.Text);
+                if (list_ipaddress[ip].Controls.Count == 3)
+                {
+                    addMessageToTLP(new Client.Message() { value = sendBox.Text,self=true}, (TableLayoutPanel)list_ipaddress[ip].Controls[2]);
+                    d_client[ip].UnreadMessages = 0;
+                }
+
             }
         }
         private void savetToFile(IPAddress ip,String messageText) {
