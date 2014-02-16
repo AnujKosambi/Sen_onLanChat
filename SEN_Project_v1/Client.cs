@@ -22,7 +22,7 @@ namespace SEN_Project_v1
             this.ipaddress = ipaddress;
             path = ".\\" + ipaddress.ToString().Replace('.', '\\') + ".xml";
             xmlDoc = new XmlDocument();
-            xmlDoc.Load(path);
+            
             if (!System.IO.File.Exists(path))
             {
                 XmlWriter xmlWriter = XmlWriter.Create(path);
@@ -33,8 +33,10 @@ namespace SEN_Project_v1
                 xmlWriter.WriteEndElement();
                 xmlWriter.WriteEndDocument();
                 xmlWriter.Close();
+               
             }
 
+                xmlDoc.Load(path);
         }
         public List<Message> fetchMessages(){
             List<Message> messageList = new List<Message>();

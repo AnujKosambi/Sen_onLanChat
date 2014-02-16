@@ -39,6 +39,7 @@
             this.buttonPanel = new System.Windows.Forms.Panel();
             this.MainPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.buttonPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
@@ -190,6 +191,7 @@
         private System.Windows.Forms.Panel buttonPanel;
         private System.Windows.Forms.Panel MainPanel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
 
