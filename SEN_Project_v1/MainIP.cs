@@ -25,7 +25,7 @@ namespace SEN_Project_v1
         Button fileNameButton = null;
         public static UdpClient receiviedClient= null;
         public static UdpClient sendingClient = null;
-        List<IPAddress> l_selectedaddress = null;
+        Dictionary<IPAddress,bool> l_selectedaddress = null;
         List<IPAddress> l_ipaddress = null;
         Dictionary<IPAddress,Client> d_client = null;
        // Dictionary<IPAddress, ListViewItem> list_ipaddress = null;
@@ -55,7 +55,7 @@ namespace SEN_Project_v1
             sendingClient = new UdpClient(PORT2);
             
             l_ipaddress = new List<IPAddress>();
-            l_selectedaddress = new List<IPAddress>();
+            l_selectedaddress = new Dictionary<IPAddress,bool>();
             d_client = new Dictionary<IPAddress, Client>();
             list_ipaddress = new Dictionary<IPAddress, Control>();
             InitializeComponent();
@@ -83,6 +83,7 @@ namespace SEN_Project_v1
             tMemberRetriving.Start();
 
         }
+        #region Thread's Processes
         private void vrecving_proc()
         {
             receiviedClient.Client.ReceiveBufferSize = 1024 * 1024;
@@ -126,12 +127,16 @@ namespace SEN_Project_v1
                 else if (stringData.StartsWith("<#Message#>"))
                 {
                     String[] splittedString=stringData.Split(new String[] { "<#Message#>" }, StringSplitOptions.RemoveEmptyEntries);
-                    if (splittedString.Length > 0) { 
-                    BeginInvoke((Action)(() =>
-                    {
-                        statusText.Text = splittedString[0];
-                    }));
-                    savetToFile(receving.Address, splittedString[0]);
+                    if (splittedString.Length > 0)
+                    { 
+                        
+                        d_client[receving.Address].addMessage(DateTime.Now, splittedString[0]);
+                        BeginInvoke((Action)(() =>
+                        {
+
+                            list_ipaddress[receving.Address].Controls[0].Controls[2].Text = d_client[receving.Address].UnreadMessages.ToString();
+                            list_ipaddress[receving.Address].Controls[0].Controls[1].Text += " :: " + d_client[receving.Address].lastMessage;
+                        }));
                     }
                 }
                
@@ -144,7 +149,8 @@ namespace SEN_Project_v1
             tcpRecevingListner = new TcpListener(PORTTCP);
             tcpRecevingListner.Start();
             ProgressBar pb = new ProgressBar();
-            
+          
+          
             while(true)
             {
                
@@ -194,7 +200,7 @@ namespace SEN_Project_v1
         }
         private void fileSending_proc()
         {
-            foreach (IPAddress ip in l_selectedaddress)
+            foreach (IPAddress ip in l_selectedaddress.Keys)
             {
              
                 tcpSendingClient = new TcpClient();
@@ -251,6 +257,7 @@ namespace SEN_Project_v1
             }
               
         }
+        #endregion
         private void AddItem(IPAddress ipaddress,String name)
         {
        
@@ -288,39 +295,57 @@ namespace SEN_Project_v1
         private UserControl MakeCustomControl(IPAddress ip, String Name)
         {
             UserControl uc=new UserControl();
+
             uc.Anchor = AnchorStyles.Top;
             Panel textPanel = new Panel();
             Label l_ip = new Label();
             Label l_name = new Label();
+            Label l_notification = new Label();
+            l_notification.Name = "notifi_lable";
+            
+
             textPanel.Controls.Add(l_name);
             textPanel.Controls.Add(l_ip);
+            textPanel.Controls.Add(l_notification);
             CheckBox checkBox = new CheckBox();
             checkBox.CheckedChanged += (a, e) =>
             {
                 if (checkBox.Checked)
-                    l_selectedaddress.Add(ip);
-                else if (l_selectedaddress.Contains(ip))
-                    l_selectedaddress.Remove(ip);
+                    l_selectedaddress.Add(ip,true);
+                else if (l_selectedaddress.ContainsKey(ip))
+                    l_selectedaddress[ip] = false;
+                else l_selectedaddress.Add(ip,false);
             
             };
             l_name.Text = Name;
             l_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             l_name.Location = new System.Drawing.Point(5, 5);
             l_ip.Location = new System.Drawing.Point(5, 26);
+
             l_ip.Text = ip.ToString();
             l_ip.AutoSize = true;
+            l_notification.Text = d_client[ip].UnreadMessages.ToString();
+            l_notification.AutoSize = true;
+            l_notification.Anchor = AnchorStyles.Right;
+            
+            l_notification.Font = l_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+           
+            
+
             l_name.BackColor = Color.Transparent;
             checkBox.Dock = DockStyle.Left;
             checkBox.AutoSize = true;
-
+            l_notification.Dock = DockStyle.Right;
+            textPanel.Padding = new Padding(0, 0, 0, 0);
+            textPanel.BorderStyle = BorderStyle.FixedSingle;
             textPanel.MouseHover += (a, b) => { uc.BackColor = Color.AliceBlue; };
             textPanel.MouseLeave += (a, b) => { uc.BackColor = Color.LightSkyBlue; };
             textPanel.MouseMove += (a, b) => { uc.BackColor = Color.AliceBlue; };
             textPanel.MouseEnter += (a, b) => { uc.BackColor = Color.AliceBlue; };
             textPanel.Click += (a, b) => {};
             textPanel.AutoSize = true;
-            textPanel.Dock = DockStyle.Fill;
-
+            textPanel.Dock = DockStyle.Top;
+            
             uc.Controls.Add(textPanel);
             uc.Controls.Add(checkBox);
             uc.BackColor = Color.LightSkyBlue;
@@ -328,13 +353,33 @@ namespace SEN_Project_v1
             uc.Dock = DockStyle.Top;
             uc.AutoSizeMode = AutoSizeMode.GrowOnly;
 
-            List<Client.Message> list = d_client[ip].fetchMessages();
-            if(list.Count>0){
-               
-           
-                l_ip.Text +=":"+list.Last().value ;
-         
-            }
+            textPanel.Click += (a,b) => {
+                if (uc.Controls.Count < 3)
+                {
+                    d_client[ip].UnreadMessages = 0;
+                    l_notification.Text = "0";
+                    TableLayoutPanel tlp = new TableLayoutPanel();
+                    tlp.AutoSize = true;
+                    tlp.Dock = DockStyle.Bottom;
+                    foreach (Client.Message m in d_client[ip].fetchMessages())
+                    {
+
+                        Label l = new Label();
+                        if(m.self==true)
+                        l.TextAlign = ContentAlignment.MiddleRight;
+                        l.Text = m.value;
+                        tlp.Controls.Add(l);
+
+
+                    }
+                    uc.Controls.Add(tlp);
+                }
+                else
+                {
+                    uc.Controls.RemoveAt(2);
+                }
+
+             };
             return uc;
         }
         private void sendBroadcastMsg(string data)
@@ -372,13 +417,14 @@ namespace SEN_Project_v1
                 tFileSending.Start();
 
             }
-            foreach(IPAddress ip in l_selectedaddress)
+            foreach(IPAddress ip in l_selectedaddress.Keys)
             {
            
                 sendingClient.Connect(new IPEndPoint(ip, PORT));
+                
                 String data = "<#Message#>" + sendBox.Text + "<#Message#>";
                 sendingClient.Send(Encoding.ASCII.GetBytes(data), data.Length);
-
+                d_client[ip].addMessage2(DateTime.Now, sendBox.Text);
             }
         }
         private void savetToFile(IPAddress ip,String messageText) {
@@ -388,21 +434,17 @@ namespace SEN_Project_v1
            
             if(System.IO.File.Exists(newWorkingDir))
             {
-                xmlDoc.Load(newWorkingDir);
+             /*   xmlDoc.Load(newWorkingDir);
                 XmlNodeList list = xmlDoc.GetElementsByTagName("Messages")[0].ChildNodes;
-
-
                 XmlNode countNode = xmlDoc.SelectSingleNode("//Messages//Count");
-        //  if(countNode==null)
-        //                  xmlDoc.GetElementsByTagName("Messages")[0].AppendChild();
-             
                 XmlElement message = xmlDoc.CreateElement("Message");
                 message.SetAttribute("index", countNode.InnerText);
                 message.SetAttribute("time", DateTime.Now + "");
                 message.InnerText = messageText;
                 xmlDoc.GetElementsByTagName("Messages")[0].AppendChild(message);
                 countNode.InnerText = Int32.Parse(countNode.InnerText) + 1 + "";
-                xmlDoc.Save(newWorkingDir);
+                xmlDoc.Save(newWorkingDir);*/
+
                 
             }
             else

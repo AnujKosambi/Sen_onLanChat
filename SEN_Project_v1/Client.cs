@@ -31,6 +31,9 @@ namespace SEN_Project_v1
                 xmlWriter.WriteStartElement("Count");
                 xmlWriter.WriteCData("0");
                 xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("Unread");
+                xmlWriter.WriteCData("0");
+                xmlWriter.WriteEndElement();
                 xmlWriter.WriteEndDocument();
                 xmlWriter.Close();
                
@@ -46,6 +49,7 @@ namespace SEN_Project_v1
                 Message m= new Message();
                 m.index=Int32.Parse(xn.Attributes.GetNamedItem("index").Value);
                 m.time=DateTime.Parse(xn.Attributes.GetNamedItem("time").Value);
+                m.self = Boolean.Parse(xn.Attributes.GetNamedItem("self").Value);
                 m.value=xn.InnerText;
 
                 messageList.Add(m);
@@ -57,12 +61,34 @@ namespace SEN_Project_v1
             
             return xmlDoc.GetElementsByTagName("Messages")[0];
         }
+        public void addMessage(DateTime time,String value)
+        {
+            XmlElement message = xmlDoc.CreateElement("Message");
+            message.SetAttribute("index", CountMessage.ToString());
+            message.SetAttribute("time", DateTime.Now + "");
+            message.SetAttribute("self", "false");
+            message.InnerText = value;
+            fetchRootOfMessages().AppendChild(message);
+            CountMessage++;
+            UnreadMessages++;
+            lastMessage = value;
+        }
+        public void addMessage2(DateTime time, String value)
+        {
+            XmlElement message = xmlDoc.CreateElement("Message");
+            message.SetAttribute("index", CountMessage.ToString());
+            message.SetAttribute("time", DateTime.Now + "");
+            message.SetAttribute("self", "true");
+            message.InnerText = value;
+            fetchRootOfMessages().AppendChild(message);
+            xmlDoc.Save(path);
+        }
         public struct Message
         {
            public int index;
            public DateTime time;
-           public String value; 
-
+           public String value;
+           public Boolean self;
         }
         public int CountMessage
         {
@@ -72,7 +98,20 @@ namespace SEN_Project_v1
             }
             set
             {
-                xmlDoc.SelectSingleNode("//Messages//Count").InnerText = CountMessage + 1+"";
+                xmlDoc.SelectSingleNode("//Messages//Count").InnerText = value+"";
+                xmlDoc.Save(path);
+            }
+        }
+        public int UnreadMessages
+        {
+            get
+            {
+
+                return Int32.Parse(xmlDoc.SelectSingleNode("//Messages//Unread").InnerText);
+            }
+            set
+            {
+                xmlDoc.SelectSingleNode("//Messages//Unread").InnerText = value + "";
                 xmlDoc.Save(path);
             }
         }
