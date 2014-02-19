@@ -1,6 +1,5 @@
 c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\SEN_Project_v1.exe
 c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\SEN_Project_v1.pdb
-c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.csprojResolveAssemblyReference.cache
 c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.Properties.Resources.resources
 c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.csproj.GenerateResource.Cache
 c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.exe
@@ -8,3 +7,8 @@ c:\users\anujkosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Pr
 C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.VideoChatting.resources
 c:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.MainIP.resources
 C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.SettingControl.resources
+C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\DevComponents.DotNetBar.Design.dll
+C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\DevComponents.Instrumentation.Design.dll
+C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\DevComponents.Instrumentation.dll
+C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.csprojResolveAssemblyReference.cache

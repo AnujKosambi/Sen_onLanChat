@@ -32,6 +32,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevComponents.DotNetBar.Design">
+      <HintPath>..\..\..\..\..\Downloads\Compressed\DotNetBar\DevComponents.DotNetBar.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="DevComponents.DotNetBar2">
+      <HintPath>..\..\..\..\..\Downloads\Compressed\DotNetBar\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevComponents.Instrumentation">
+      <HintPath>..\..\..\..\..\Downloads\Compressed\DotNetBar\DevComponents.Instrumentation.dll</HintPath>
+    </Reference>
+    <Reference Include="DevComponents.Instrumentation.Design">
+      <HintPath>..\..\..\..\..\Downloads\Compressed\DotNetBar\DevComponents.Instrumentation.Design.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Messaging" />
@@ -70,6 +82,7 @@
     <Compile Include="VideoChatting.Designer.cs">
       <DependentUpon>VideoChatting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Webcam.cs" />
     <EmbeddedResource Include="MainIP.resx">
       <DependentUpon>MainIP.cs</DependentUpon>
     </EmbeddedResource>

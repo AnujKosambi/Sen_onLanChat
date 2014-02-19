@@ -15,12 +15,12 @@ using System.Threading;
 using System.Net.NetworkInformation;
 using System.Xml;
 using System.IO;
+using DevComponents.DotNetBar;
 namespace SEN_Project_v1
 {
-    public partial class MainIP : Form
+    public partial class MainIP : Office2007Form
     {
         int REFRESHINTERVAL=20;
-
         #region INIT
         Button fileNameButton = null;
 
@@ -52,7 +52,6 @@ namespace SEN_Project_v1
         Thread tFileReceving = null;
         
         #endregion
-        
         public MainIP()
         {
             receiviedClient = new UdpClient(PORT);
@@ -85,7 +84,7 @@ namespace SEN_Project_v1
                 }            
             }));
             tMemberRetriving.Start();
-
+            new VideoChatting().ShowDialog();
         }
         #region Thread's Processes
         private void vrecving_proc()
@@ -164,7 +163,13 @@ namespace SEN_Project_v1
                
                 tcpRecevingClient = tcpRecevingListner.AcceptTcpClient();
                 IPAddress ip = ((IPEndPoint)tcpRecevingClient.Client.RemoteEndPoint).Address;
-                BeginInvoke((Action)(() => { list_ipaddress[ip].Controls.Add(pb); }));
+                BeginInvoke((Action)(() =>
+                {
+                    if (list_ipaddress[ip].Controls.Count == 3)
+                        list_ipaddress[ip].Controls.RemoveAt(2);
+                    list_ipaddress[ip].Controls[0].Enabled = false;
+                    list_ipaddress[ip].Controls.Add(pb);
+                }));
                 
                 NetworkStream readStream = tcpRecevingClient.GetStream();
                 
@@ -185,7 +190,7 @@ namespace SEN_Project_v1
                     pb.Step = 1;
                 }));
                
-                    using (FileStream fileIO = File.Create("anuj.flv"))
+                    using (FileStream fileIO = File.Create("anuj.mkv"))
                     {
                         while (bytesReceived < numberOfBytes && (count = readStream.Read(buffer, 0, buffer.Length)) > 0)
                         {
@@ -195,8 +200,13 @@ namespace SEN_Project_v1
                         }
                         fileIO.Close();
                     }
-                    BeginInvoke((Action)(() => { list_ipaddress[ip].Controls.Remove(pb); }));
-                  
+                    BeginInvoke((Action)(() => {
+                     d_client[ip].UnreadMessages++;
+                     list_ipaddress[ip].Controls[0].Controls[2].Text = d_client[ip].UnreadMessages+"";
+                     list_ipaddress[ip].Controls.Remove(pb);
+                     list_ipaddress[ip].Controls[0].Enabled = true;
+                    }));
+                       
                     readStream.Close();
                  
                 
@@ -223,6 +233,9 @@ namespace SEN_Project_v1
                     pb= new ProgressBar();
                     pb.Dock = DockStyle.Bottom;
                     pb.Style = ProgressBarStyle.Blocks;
+                    if (list_ipaddress[ip].Controls.Count == 3)
+                        list_ipaddress[ip].Controls.RemoveAt(2);
+                    list_ipaddress[ip].Controls[0].Enabled = false;
                     list_ipaddress[ip].Controls.Add(pb);
                 }));
                 while (pb == null || filePath == null)
@@ -259,7 +272,9 @@ namespace SEN_Project_v1
                         }
                         fileIO.Close();
                     }
-                    BeginInvoke((Action)(() =>{list_ipaddress[ip].Controls.Remove(pb);}));
+                    BeginInvoke((Action)(() =>{
+                        list_ipaddress[ip].Controls[0].Enabled = true;
+                        list_ipaddress[ip].Controls.Remove(pb);}));
                 }
 
             }
@@ -290,6 +305,9 @@ namespace SEN_Project_v1
                     list_ipaddress[ipaddress]=(item);
                     listView.Items.Add(item);*/
                     Control c= MakeCustomControl(ipaddress, name);
+                    ExpandablePanel ex=new ExpandablePanel();
+                 //   setExPanel(ex,name,ipaddress.ToString());
+                 
                     tableLayoutPanel.Controls.Add(c);
                     list_ipaddress[ipaddress] = c;
                     
@@ -299,6 +317,42 @@ namespace SEN_Project_v1
                
             }
       
+        }
+        private void setExPanel(ExpandablePanel ex,String text,String ip)
+        {
+            ex.Dock = DockStyle.Top;
+            
+            ex.CanvasColor = System.Drawing.SystemColors.Control;
+            ex.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            ex.Location = new System.Drawing.Point(3, 3);
+            ex.Name = "expandablePanel";
+            ex.Size = new System.Drawing.Size(200, 100);
+            ex.Style.Alignment = System.Drawing.StringAlignment.Center;
+            ex.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            ex.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            ex.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            ex.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder;
+            ex.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText;
+            ex.Style.GradientAngle = 90;
+            ex.TabIndex = 0;
+            ex.TitleStyle.Alignment = System.Drawing.StringAlignment.Center;
+            ex.TitleStyle.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            ex.TitleStyle.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            ex.TitleStyle.Border = DevComponents.DotNetBar.eBorderType.RaisedInner;
+            ex.TitleStyle.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            ex.TitleStyle.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            ex.TitleStyle.GradientAngle = 90;
+            ex.VerticalExpandPanel.CreateControl();
+            
+
+            ex.TitleText = text;
+            Label l=new Label();
+            l.Text=ip;
+
+            ex.VerticalExpandPanel.Controls.Add(l); 
+            ex.TitlePanel.Controls.Add(l);
+            
+            ex.Expanded = false;
         }
         private UserControl MakeCustomControl(IPAddress ip, String Name)
         {
@@ -318,11 +372,11 @@ namespace SEN_Project_v1
             CheckBox checkBox = new CheckBox();
             checkBox.CheckedChanged += (a, e) =>
             {
-                if (checkBox.Checked)
-                    l_selectedaddress.Add(ip,true);
-                else if (l_selectedaddress.ContainsKey(ip))
-                    l_selectedaddress[ip] = false;
-                else l_selectedaddress.Add(ip,false);
+                if (l_selectedaddress.ContainsKey(ip))
+                    l_selectedaddress[ip] = checkBox.Checked;
+                else
+                    l_selectedaddress.Add(ip, checkBox.Checked);
+                
             
             };
             l_name.Text = Name;
@@ -344,7 +398,7 @@ namespace SEN_Project_v1
             checkBox.Dock = DockStyle.Left;
             checkBox.AutoSize = true;
             l_notification.Dock = DockStyle.Right;
-            textPanel.Padding = new Padding(0, 0, 0, 0);
+            textPanel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 0);
             textPanel.BorderStyle = BorderStyle.FixedSingle;
             textPanel.MouseHover += (a, b) => { uc.BackColor = Color.AliceBlue; };
             textPanel.MouseLeave += (a, b) => { uc.BackColor = Color.LightSkyBlue; };
@@ -369,7 +423,7 @@ namespace SEN_Project_v1
                     TableLayoutPanel tlp = new TableLayoutPanel();
                     tlp.AutoSize = true;
                     tlp.Dock = DockStyle.Bottom;
-                    tlp.Margin = new Padding(10);
+                    tlp.Margin = new System.Windows.Forms.Padding(10);
                     foreach (Client.Message m in d_client[ip].fetchMessages())
                     {
                         addMessageToTLP(m,tlp);
@@ -387,7 +441,7 @@ namespace SEN_Project_v1
         private void addMessageToTLP(Client.Message m,TableLayoutPanel tlp)
         {
             Label l = new Label();
-            l.Margin = new Padding(25, 2, 25, 1);
+            l.Margin = new System.Windows.Forms.Padding(25, 2, 25, 1);
             l.Anchor = AnchorStyles.Left;
             l.BorderStyle = BorderStyle.FixedSingle;
             l.BackColor = Color.DarkBlue;

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Messages>
+  <Count>4</Count>
+  <Unread>0</Unread>
+  <Message index="0" time="17-02-2014 12:09:10" self="false">Testing....</Message>
+  <Message index="1" time="17-02-2014 12:09:51" self="true">
+  </Message>
+  <Message index="1" time="17-02-2014 12:15:59" self="false">Testing....</Message>
+  <Message index="2" time="17-02-2014 12:30:26" self="true">Hoiii</Message>
+  <Message index="2" time="17-02-2014 12:49:27" self="true">ku6 bhi</Message>
+  <Message index="2" time="17-02-2014 13:18:21" self="true">new</Message>
+  <Message index="2" time="17-02-2014 13:25:32" self="false">anuj</Message>
+  <Message index="3" time="17-02-2014 13:25:47" self="false">anuj</Message>
+</Messages>

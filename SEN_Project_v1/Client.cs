@@ -44,6 +44,7 @@ namespace SEN_Project_v1
         public List<Message> fetchMessages(){
             List<Message> messageList = new List<Message>();
            XmlNodeList nodelist = xmlDoc.SelectNodes("//Messages//Message");
+            
             foreach(XmlNode xn in nodelist)
             {
                 Message m= new Message();

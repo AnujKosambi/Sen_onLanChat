@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.statusText = new System.Windows.Forms.TextBox();
             this.sendBox = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
@@ -40,6 +41,7 @@
             this.MainPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.menuStrip1.SuspendLayout();
             this.buttonPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
@@ -153,6 +155,10 @@
             this.tableLayoutPanel.Size = new System.Drawing.Size(422, 171);
             this.tableLayoutPanel.TabIndex = 9;
             // 
+            // styleManager1
+            // 
+            this.styleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007VistaGlass;
+            // 
             // MainIP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -161,6 +167,7 @@
             this.Controls.Add(this.MainPanel);
             this.Controls.Add(this.buttonPanel);
             this.Controls.Add(this.menuStrip1);
+            this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainIP";
             this.ShowIcon = false;
@@ -192,6 +199,7 @@
         private System.Windows.Forms.Panel MainPanel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private DevComponents.DotNetBar.StyleManager styleManager1;
     }
 }
 
