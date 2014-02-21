@@ -56,7 +56,9 @@ namespace SEN_Project_v1
         {
             receiviedClient = new UdpClient(PORT);
             sendingClient = new UdpClient(PORT2);
-            
+            receiviedClient.MulticastLoopback = true;
+            sendingClient.MulticastLoopback = true;
+                
             l_ipaddress = new List<IPAddress>();
             l_selectedaddress = new Dictionary<IPAddress,bool>();
             d_client = new Dictionary<IPAddress, Client>();
