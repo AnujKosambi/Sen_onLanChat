@@ -1,9 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Messages>
-  <Count>3</Count>
+  <Count>4</Count>
   <Unread>0</Unread>
   <Message index="0" time="16-02-2014 23:32:25" self="false">Hiii</Message>
   <Message index="1" time="16-02-2014 23:33:38" self="true">hello</Message>
   <Message index="1" time="16-02-2014 23:34:00" self="false">tp:D</Message>
   <Message index="2" time="17-02-2014 00:16:20" self="false">test</Message>
+  <Message index="3" time="21-02-2014 23:33:28" self="true">Hii</Message>
+  <Message index="3" time="21-02-2014 23:38:39" self="false">Hiii</Message>
+  <Message index="4" time="21-02-2014 23:38:54" self="true">Hii
+</Message>
+  <Message index="4" time="22-02-2014 01:54:34" self="true">Hiiii</Message>
+  <Message index="4" time="22-02-2014 01:54:39" self="true">Hiiii</Message>
+  <Message index="4" time="22-02-2014 01:54:40" self="true">Hiiii</Message>
+  <Message index="4" time="22-02-2014 01:54:41" self="true">Hiiii</Message>
+  <Message index="4" time="22-02-2014 01:54:41" self="true">Hiiii</Message>
 </Messages>

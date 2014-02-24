@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Messages>
-  <Count><![CDATA[0]]></Count>
+  <Count>1</Count>
   <Unread>0</Unread>
   <Message index="0" time="17-02-2014 12:09:51" self="true">
   </Message>
+  <Message index="0" time="23-02-2014 23:49:38" self="false">HIIII</Message>
+  <Message index="0" time="23-02-2014 23:49:38" self="true">HIIII</Message>
 </Messages>

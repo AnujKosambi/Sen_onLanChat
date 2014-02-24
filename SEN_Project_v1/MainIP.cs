@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using WebCam_Capture;
+
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Net;
@@ -16,6 +16,8 @@ using System.Net.NetworkInformation;
 using System.Xml;
 using System.IO;
 using DevComponents.DotNetBar;
+using Noesis.Drawing.Imaging.WebP;
+using ownLibrary;
 namespace SEN_Project_v1
 {
     public partial class MainIP : Office2007Form
@@ -54,21 +56,25 @@ namespace SEN_Project_v1
         #endregion
         public MainIP()
         {
+            
             receiviedClient = new UdpClient(PORT);
             sendingClient = new UdpClient(PORT2);
             receiviedClient.MulticastLoopback = true;
+            
             sendingClient.MulticastLoopback = true;
-                
+            sendingClient.EnableBroadcast = true;
             l_ipaddress = new List<IPAddress>();
             l_selectedaddress = new Dictionary<IPAddress,bool>();
             d_client = new Dictionary<IPAddress, Client>();
             list_ipaddress = new Dictionary<IPAddress, Control>();
             InitializeComponent();
- 
+        
         }
         private void MainIP_Load(object sender, EventArgs e)
-        {     
-
+        {
+         
+            new VideoChatting().ShowDialog();
+         
            // listView.CheckBoxes = true;
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
           //  listView.View = View.Details;
@@ -86,7 +92,7 @@ namespace SEN_Project_v1
                 }            
             }));
             tMemberRetriving.Start();
-            new VideoChatting().ShowDialog();
+            
         }
         #region Thread's Processes
         private void vrecving_proc()
@@ -418,6 +424,7 @@ namespace SEN_Project_v1
             uc.AutoSizeMode = AutoSizeMode.GrowOnly;
 
             textPanel.Click += (a,b) => {
+                
                 if (uc.Controls.Count < 3)
                 {
                     d_client[ip].UnreadMessages = 0;
@@ -439,6 +446,11 @@ namespace SEN_Project_v1
 
              };
             return uc;
+        }
+        private UserControl MakeCustomListControl(IPAddress ip,String name)
+        {
+            User user = new User();
+            return user;
         }
         private void addMessageToTLP(Client.Message m,TableLayoutPanel tlp)
         {

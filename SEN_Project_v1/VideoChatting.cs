@@ -9,36 +9,83 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
-
+using AForge.Video;
+using AForge.Video.DirectShow;
+using System.IO;
 namespace SEN_Project_v1
 {
     public partial class VideoChatting : Form
     {
+        FilterInfoCollection infos;
+        VideoCaptureDevice capture=new VideoCaptureDevice();
+        RTPHelper rtpHelper;
         public VideoChatting()
         {
             InitializeComponent();
-           CamDevice c= new CamDevice(0);
-            c.ShowWindow(pictureBox);
-             Thread t = new Thread(new ThreadStart(()=>{
-             while(true)
-             {
-                 c.Capture();
-                 if (Clipboard.GetDataObject() != null)
-                 if (Clipboard.GetDataObject().GetDataPresent(typeof(System.Drawing.Bitmap)))
-                 {
-                     Bitmap b =(Bitmap)Clipboard.GetDataObject().GetData(typeof(System.Drawing.Bitmap));
-                     System.Diagnostics.Debug.WriteLine(b.Size);
-                 }
+            pictureBox_Sender.BackColor = Color.Black;
+        }
 
+        private void VideoChatting_Load(object sender, EventArgs e)
+        {
+            infos = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            foreach (FilterInfo info in infos)
+            {
+                deviceList.Items.Add(info.Name);
 
-             }
-
-            }));
-             t.Start();
+            }
+            deviceList.SelectedIndex = 0;
             
         }
+
+        private void Start_Click(object sender, EventArgs e)
+        {
+            if (capture.IsRunning == true)
+            {
+                b_start.Text = "Start";
+                capture.Stop();
+
+            }
+            else
+            {
+                if(rtpHelper==null)
+                rtpHelper=new RTPHelper(this,new System.Net.IPEndPoint(System.Net.IPAddress.Parse("192.168.1.105"),1762));
+                
+                capture = new VideoCaptureDevice(infos[deviceList.SelectedIndex].MonikerString);
+                capture.NewFrame += capture_NewFrame;
+                capture.Start();
+                
+                b_start.Text = "Stop";
+            }
+        }
+ 
+        void capture_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
+            BeginInvoke((Action)(() =>
+            {
+             
+             
+                pictureBox_Sender.Image = bitmap;
+            
+                MemoryStream ms  = new MemoryStream();
+                bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                rtpHelper.rtpSender.Send(ms.GetBuffer());
+                
+            }));
+          
+         
+            
+        }
+
+        private void VideoChatting_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (capture != null)
+                capture.Stop();
+        }
+
+
     }
-    
+    /*
     public class CamDevice
     {
         #region dllpart
@@ -96,7 +143,14 @@ namespace SEN_Project_v1
         }
         public void Capture()
         {
-            SendMessage(deviceHandle, WM_CAP_EDIT_COPY, 640, 480);
+            SendMessage(deviceHandle, WM_CAP_EDIT_COPY, 0, 0);
+            IDataObject data = Clipboard.GetDataObject();
+            Image oImage;
+            if(data!=null)
+              if(data.GetDataPresent( typeof(System.Drawing.Bitmap))){
+                  oImage=(Image)data.GetData(typeof(System.Drawing.Bitmap));
+                    System.Diagnostics.Debug.Write(oImage);
+              }
         }
         public void Stop()
         {
@@ -104,5 +158,5 @@ namespace SEN_Project_v1
 
             DestroyWindow(deviceHandle);
         }
-    }
+    }*/
 }

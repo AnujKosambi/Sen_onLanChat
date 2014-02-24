@@ -12,3 +12,12 @@ C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Pr
 C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\DevComponents.Instrumentation.Design.dll
 C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\DevComponents.Instrumentation.dll
 C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.csprojResolveAssemblyReference.cache
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\Noesis.Drawing.Imaging.WebP.dll
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\ownLibrary.dll
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\ownLibrary.pdb
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\AForge.Video.DirectShow.dll
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\AForge.Video.dll
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\AForge.dll
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\AForge.Video.xml
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\AForge.Video.DirectShow.xml
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\AForge.xml
