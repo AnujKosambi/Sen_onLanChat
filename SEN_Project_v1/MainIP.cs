@@ -20,7 +20,7 @@ using Noesis.Drawing.Imaging.WebP;
 using ownLibrary;
 namespace SEN_Project_v1
 {
-    public partial class MainIP : Office2007Form
+    public partial class MainIP : Form
     {
         int REFRESHINTERVAL=20;
         #region INIT
@@ -32,7 +32,7 @@ namespace SEN_Project_v1
         Dictionary<IPAddress,bool> l_selectedaddress = null;
         List<IPAddress> l_ipaddress = null;
         Dictionary<IPAddress,Client> d_client = null;
-        Dictionary<IPAddress, Control> list_ipaddress = null;
+       public static Dictionary<IPAddress, Control> list_ipaddress = null;
 
         public static TcpClient tcpSendingClient = null;
         public static TcpListener tcpRecevingListner = null;
@@ -41,7 +41,7 @@ namespace SEN_Project_v1
         static int PORT = 1716;
         static int PORT2 = 1617;
         static int PORTTCP = 12316;
-        
+        static int VCALL_PORT = 17162;
         IPEndPoint BROADCAST_SENDING = new IPEndPoint(IPAddress.Parse("255.255.255.255"), PORT);
         IPEndPoint BROADCAST_RECIVEING= new IPEndPoint(IPAddress.Any, PORT);
 
@@ -73,7 +73,6 @@ namespace SEN_Project_v1
         private void MainIP_Load(object sender, EventArgs e)
         {
          
-            new VideoChatting().ShowDialog();
          
            // listView.CheckBoxes = true;
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
@@ -325,7 +324,7 @@ namespace SEN_Project_v1
                
             }
       
-        }
+        }/*
         private void setExPanel(ExpandablePanel ex,String text,String ip)
         {
             ex.Dock = DockStyle.Top;
@@ -362,6 +361,7 @@ namespace SEN_Project_v1
             
             ex.Expanded = false;
         }
+          */
         private UserControl MakeCustomControl(IPAddress ip, String Name)
         {
             UserControl uc=new UserControl();
@@ -552,7 +552,7 @@ namespace SEN_Project_v1
 
 
         }
-        string getLocalIP()
+        public static string getLocalIP()
         {
             string localIP="";
             foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
@@ -645,6 +645,15 @@ namespace SEN_Project_v1
             MainPanel.Controls.Add(fileNameButton);
         }
         #endregion
+
+        private void videoCalling_Click(object sender, EventArgs e)
+        {
+            if (l_selectedaddress.Keys.Count > 0)
+            {
+                new VideoChatting(new IPEndPoint(l_selectedaddress.Keys.First(), VCALL_PORT)).ShowDialog();
+            }
+
+        }
 
 
     }

@@ -38,6 +38,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.fileSelectButton = new System.Windows.Forms.Button();
             this.buttonPanel = new System.Windows.Forms.Panel();
+            this.videoCalling = new System.Windows.Forms.Button();
             this.MainPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -53,17 +54,17 @@
             this.statusText.Enabled = false;
             this.statusText.Location = new System.Drawing.Point(0, 0);
             this.statusText.Name = "statusText";
-            this.statusText.Size = new System.Drawing.Size(422, 20);
+            this.statusText.Size = new System.Drawing.Size(411, 20);
             this.statusText.TabIndex = 1;
             // 
             // sendBox
             // 
             this.sendBox.AllowDrop = true;
             this.sendBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.sendBox.Location = new System.Drawing.Point(0, 191);
+            this.sendBox.Location = new System.Drawing.Point(0, 223);
             this.sendBox.Multiline = true;
             this.sendBox.Name = "sendBox";
-            this.sendBox.Size = new System.Drawing.Size(422, 61);
+            this.sendBox.Size = new System.Drawing.Size(411, 29);
             this.sendBox.TabIndex = 4;
             this.sendBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.sendBox_DragDrop);
             this.sendBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.sendBox_DragEnter);
@@ -73,7 +74,7 @@
             this.sendButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.sendButton.Location = new System.Drawing.Point(12, 10);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(257, 23);
+            this.sendButton.Size = new System.Drawing.Size(122, 23);
             this.sendButton.TabIndex = 5;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
@@ -81,11 +82,12 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImeMode = System.Windows.Forms.ImeMode.Alpha;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(422, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(411, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -112,9 +114,9 @@
             // fileSelectButton
             // 
             this.fileSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.fileSelectButton.Location = new System.Drawing.Point(357, 10);
+            this.fileSelectButton.Location = new System.Drawing.Point(289, 10);
             this.fileSelectButton.Name = "fileSelectButton";
-            this.fileSelectButton.Size = new System.Drawing.Size(53, 23);
+            this.fileSelectButton.Size = new System.Drawing.Size(110, 23);
             this.fileSelectButton.TabIndex = 9;
             this.fileSelectButton.Text = "File.";
             this.fileSelectButton.UseVisualStyleBackColor = true;
@@ -122,13 +124,25 @@
             // 
             // buttonPanel
             // 
+            this.buttonPanel.Controls.Add(this.videoCalling);
             this.buttonPanel.Controls.Add(this.sendButton);
             this.buttonPanel.Controls.Add(this.fileSelectButton);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.buttonPanel.Location = new System.Drawing.Point(0, 276);
             this.buttonPanel.Name = "buttonPanel";
-            this.buttonPanel.Size = new System.Drawing.Size(422, 45);
+            this.buttonPanel.Size = new System.Drawing.Size(411, 45);
             this.buttonPanel.TabIndex = 10;
+            // 
+            // videoCalling
+            // 
+            this.videoCalling.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.videoCalling.Location = new System.Drawing.Point(154, 10);
+            this.videoCalling.Name = "videoCalling";
+            this.videoCalling.Size = new System.Drawing.Size(129, 23);
+            this.videoCalling.TabIndex = 10;
+            this.videoCalling.Text = "VideoCalling";
+            this.videoCalling.UseVisualStyleBackColor = true;
+            this.videoCalling.Click += new System.EventHandler(this.videoCalling_Click);
             // 
             // MainPanel
             // 
@@ -138,7 +152,7 @@
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(0, 24);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(422, 252);
+            this.MainPanel.Size = new System.Drawing.Size(411, 252);
             this.MainPanel.TabIndex = 11;
             // 
             // tableLayoutPanel
@@ -152,25 +166,24 @@
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 1;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(422, 171);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(411, 203);
             this.tableLayoutPanel.TabIndex = 9;
             // 
             // styleManager1
             // 
-            this.styleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007VistaGlass;
+            this.styleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Blue;
             // 
             // MainIP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 321);
+            this.ClientSize = new System.Drawing.Size(411, 321);
             this.Controls.Add(this.MainPanel);
             this.Controls.Add(this.buttonPanel);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainIP";
-            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "OnLanChat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainIP_FormClosing);
@@ -200,6 +213,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private DevComponents.DotNetBar.StyleManager styleManager1;
+        private System.Windows.Forms.Button videoCalling;
     }
 }
 

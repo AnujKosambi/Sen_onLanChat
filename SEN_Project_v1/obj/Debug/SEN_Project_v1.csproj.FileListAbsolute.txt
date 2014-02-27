@@ -21,3 +21,8 @@ C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Pr
 C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\AForge.Video.xml
 C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\AForge.Video.DirectShow.xml
 C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\AForge.xml
+C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\SEN_Project_v1.exe.config
+C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\NAudio.dll
+C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.AudioControl.resources
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\WinSound.dll
+C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\WinSound.pdb

@@ -50,9 +50,13 @@
     <Reference Include="DevComponents.Instrumentation.Design">
       <HintPath>..\..\..\..\..\Downloads\Compressed\DotNetBar\DevComponents.Instrumentation.Design.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MSR.LST.Net.Rtp, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\MSR.LST.Net.Rtp.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\..\..\..\..\Downloads\Tutorial6\Tutorial6\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="NetworkingBasics, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -74,8 +78,17 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WinSound">
+      <HintPath>..\..\..\..\..\Downloads\Source_3\Source_3\WinSound\WinSound\bin\Debug\WinSound.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AudioControl.Designer.cs">
+      <DependentUpon>AudioControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Client.cs" />
     <Compile Include="MainIP.cs">
       <SubType>Form</SubType>
@@ -99,7 +112,11 @@
     <Compile Include="VideoChatting.Designer.cs">
       <DependentUpon>VideoChatting.cs</DependentUpon>
     </Compile>
+    <None Include="app.config" />
     <None Include="Webcam.cs.bak" />
+    <EmbeddedResource Include="AudioControl.resx">
+      <DependentUpon>AudioControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainIP.resx">
       <DependentUpon>MainIP.cs</DependentUpon>
     </EmbeddedResource>

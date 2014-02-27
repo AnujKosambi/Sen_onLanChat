@@ -1,1 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Messages><Count><![CDATA[0]]></Count><Unread><![CDATA[0]]></Unread></Messages>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Messages>
+  <Count><![CDATA[0]]></Count>
+  <Unread>0</Unread>
+  <Message index="0" time="26-02-2014 23:24:43" self="true">
+  </Message>
+  <Message index="0" time="26-02-2014 23:30:18" self="true">
+  </Message>
+  <Message index="0" time="26-02-2014 23:30:20" self="true">
+  </Message>
+  <Message index="0" time="26-02-2014 23:30:24" self="true">
+  </Message>
+</Messages>
