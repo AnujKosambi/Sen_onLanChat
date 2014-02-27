@@ -93,6 +93,7 @@ namespace SEN_Project_v1
                         waveProvider = new BufferedWaveProvider(new WaveFormat(44100, 2));
                         waveOut = new DirectSoundOut();
                         
+                        
                         waveProvider.DiscardOnBufferOverflow = true;
                         waveProvider.AddSamples(audio, 0, audio.Length);
                         waveOut.Init(waveProvider);
