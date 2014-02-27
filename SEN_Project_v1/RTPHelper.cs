@@ -34,7 +34,12 @@ namespace SEN_Project_v1
             rtpSession = new RtpSession(remoteIP, new RtpParticipant(cname, name), true, true);
            
             rtpSender = rtpSession.CreateRtpSenderFec(name, type, null, 0, 1);
-            localIP=rtpSession.Participant(cname).IPAddress;   
+            localIP=rtpSession.Participant(cname).IPAddress;
+            waveProvider = new BufferedWaveProvider(new WaveFormat(44100, 2));
+            waveProvider.DiscardOnBufferOverflow = true;
+            waveOut = new DirectSoundOut();
+            waveOut.Init(waveProvider);
+                        
         }
         public void AttachEventHandler()
         {
@@ -86,26 +91,16 @@ namespace SEN_Project_v1
                 }
                  if (ea.RtpStream.PayloadType == PayloadType.dynamicAudio || ea.RtpStream.PayloadType==PayloadType.Chat)
                 {
+                     
                     Byte[] audio = new Byte[ ms.Length-ms.Position];
                     ms.Read(audio, 0, audio.Length);
-                    if (waveOut == null)
+              
                     {
-                        waveProvider = new BufferedWaveProvider(new WaveFormat(44100, 2));
-                        waveOut = new DirectSoundOut();
-                        
-                        
-                        waveProvider.DiscardOnBufferOverflow = true;
+                        if(ea.RtpStream.FramesReceived>10)
                         waveProvider.AddSamples(audio, 0, audio.Length);
-                        waveOut.Init(waveProvider);
-                        waveOut.Play();
-                    }
-                    else
-                    {
-                        waveProvider.DiscardOnBufferOverflow = true;
-                    
-                        waveProvider.AddSamples(audio, 0, audio.Length);
-                        if(waveOut.PlaybackState!=PlaybackState.Playing)
-                         waveOut.Play();
+                        if (waveOut.PlaybackState != PlaybackState.Playing)
+                            waveOut.Play();
+                        
                     }
 
                 }

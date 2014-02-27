@@ -40,26 +40,10 @@ namespace SEN_Project_v1
 
             }
             deviceList.SelectedIndex = 0;
-            timer.Enabled = true;
 
-     //      timer.Tick += timer_Tick;
-            timer.Interval = 750;
         }
 
-        void timer_Tick(object sender, EventArgs e)
-        {
-            
-            if (audioControl!=null  && audioControl.listBytes.Count > 0)
-            {
 
-                int oldsize = audioControl.listBytes.Count;
-                System.Diagnostics.Debug.WriteLine(oldsize);
-               
-                audioRTP.rtpSender.Send(audioControl.listBytes.ToArray());
-                audioControl.listBytes = audioControl.listBytes.Skip(oldsize).ToList();
-           
-            }
-        }
 
         private void Start_Click(object sender, EventArgs e)
         {
@@ -79,6 +63,7 @@ namespace SEN_Project_v1
                 audioControl.sourceStream.StartRecording();
          
                 capture = new VideoCaptureDevice(infos[deviceList.SelectedIndex].MonikerString);
+                capture.DesiredFrameRate = 10;
                 capture.NewFrame += capture_NewFrame;
                 capture.Start();
 
