@@ -26,7 +26,7 @@ namespace SEN_Project_v1
         {
             this.ip = ip;
             InitializeComponent();
-            pictureBox_Sender.BackColor = Color.Black;
+            pictureBox_rec.BackColor = Color.Black;
             audioControl = new AudioControl();
             this.audioPanel.Controls.Add(audioControl);
         }
@@ -52,14 +52,14 @@ namespace SEN_Project_v1
                 b_start.Text = "Start";
                 capture.Stop();
                 audioControl.sourceStream.StopRecording();
-         //       timer.Stop();
+
             }
             else
             {
-//                timer.Start();
 
-                videoRTP = new RTPHelper(this, ip, MSR.LST.Net.Rtp.PayloadType.Chat);
-          //      audioRTP = new RTPHelper(this, new System.Net.IPEndPoint(ip.Address, ++ip.Port), MSR.LST.Net.Rtp.PayloadType.dynamicAudio);
+
+                videoRTP = new RTPHelper(this.pictureBox_rec, ip, MSR.LST.Net.Rtp.PayloadType.Chat);
+
                 audioControl.sourceStream.StartRecording();
          
                 capture = new VideoCaptureDevice(infos[deviceList.SelectedIndex].MonikerString);

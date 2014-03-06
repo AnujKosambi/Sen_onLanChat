@@ -26,3 +26,5 @@ C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Pr
 C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.AudioControl.resources
 C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\WinSound.dll
 C:\Users\AnujKosambi\Documents\Visual Studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\bin\Debug\WinSound.pdb
+C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.myPlayer.resources
+C:\Users\AnujKosambi\documents\visual studio 2013\Projects\SEN_Project_v1\SEN_Project_v1\obj\Debug\SEN_Project_v1.Remote.resources

@@ -38,11 +38,12 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.fileSelectButton = new System.Windows.Forms.Button();
             this.buttonPanel = new System.Windows.Forms.Panel();
-            this.videoCalling = new System.Windows.Forms.Button();
             this.MainPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
+            this.remote = new System.Windows.Forms.Button();
+            this.videoCall = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.buttonPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
@@ -61,7 +62,7 @@
             // 
             this.sendBox.AllowDrop = true;
             this.sendBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.sendBox.Location = new System.Drawing.Point(0, 223);
+            this.sendBox.Location = new System.Drawing.Point(0, 200);
             this.sendBox.Multiline = true;
             this.sendBox.Name = "sendBox";
             this.sendBox.Size = new System.Drawing.Size(411, 29);
@@ -72,9 +73,9 @@
             // sendButton
             // 
             this.sendButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.sendButton.Location = new System.Drawing.Point(12, 10);
+            this.sendButton.Location = new System.Drawing.Point(12, 33);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(122, 23);
+            this.sendButton.Size = new System.Drawing.Size(102, 23);
             this.sendButton.TabIndex = 5;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
@@ -114,9 +115,9 @@
             // fileSelectButton
             // 
             this.fileSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.fileSelectButton.Location = new System.Drawing.Point(289, 10);
+            this.fileSelectButton.Location = new System.Drawing.Point(313, 33);
             this.fileSelectButton.Name = "fileSelectButton";
-            this.fileSelectButton.Size = new System.Drawing.Size(110, 23);
+            this.fileSelectButton.Size = new System.Drawing.Size(86, 23);
             this.fileSelectButton.TabIndex = 9;
             this.fileSelectButton.Text = "File.";
             this.fileSelectButton.UseVisualStyleBackColor = true;
@@ -124,25 +125,15 @@
             // 
             // buttonPanel
             // 
-            this.buttonPanel.Controls.Add(this.videoCalling);
+            this.buttonPanel.Controls.Add(this.remote);
+            this.buttonPanel.Controls.Add(this.videoCall);
             this.buttonPanel.Controls.Add(this.sendButton);
             this.buttonPanel.Controls.Add(this.fileSelectButton);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonPanel.Location = new System.Drawing.Point(0, 276);
+            this.buttonPanel.Location = new System.Drawing.Point(0, 253);
             this.buttonPanel.Name = "buttonPanel";
-            this.buttonPanel.Size = new System.Drawing.Size(411, 45);
+            this.buttonPanel.Size = new System.Drawing.Size(411, 68);
             this.buttonPanel.TabIndex = 10;
-            // 
-            // videoCalling
-            // 
-            this.videoCalling.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.videoCalling.Location = new System.Drawing.Point(154, 10);
-            this.videoCalling.Name = "videoCalling";
-            this.videoCalling.Size = new System.Drawing.Size(129, 23);
-            this.videoCalling.TabIndex = 10;
-            this.videoCalling.Text = "VideoCalling";
-            this.videoCalling.UseVisualStyleBackColor = true;
-            this.videoCalling.Click += new System.EventHandler(this.videoCalling_Click);
             // 
             // MainPanel
             // 
@@ -152,7 +143,7 @@
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(0, 24);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(411, 252);
+            this.MainPanel.Size = new System.Drawing.Size(411, 229);
             this.MainPanel.TabIndex = 11;
             // 
             // tableLayoutPanel
@@ -166,12 +157,38 @@
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 1;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(411, 203);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(411, 180);
             this.tableLayoutPanel.TabIndex = 9;
             // 
             // styleManager1
             // 
             this.styleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Blue;
+            // 
+            // remote
+            // 
+            this.remote.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.remote.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.remote.BackgroundImage = global::SEN_Project_v1.Properties.Resources.remotedesktop1;
+            this.remote.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.remote.Location = new System.Drawing.Point(201, 6);
+            this.remote.Name = "remote";
+            this.remote.Size = new System.Drawing.Size(56, 56);
+            this.remote.TabIndex = 11;
+            this.remote.UseVisualStyleBackColor = false;
+            this.remote.Click += new System.EventHandler(this.remote_Click);
+            // 
+            // videoCall
+            // 
+            this.videoCall.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.videoCall.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.videoCall.BackgroundImage = global::SEN_Project_v1.Properties.Resources.call_video_call_icon_press;
+            this.videoCall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.videoCall.Location = new System.Drawing.Point(136, 6);
+            this.videoCall.Name = "videoCall";
+            this.videoCall.Size = new System.Drawing.Size(56, 56);
+            this.videoCall.TabIndex = 10;
+            this.videoCall.UseVisualStyleBackColor = false;
+            this.videoCall.Click += new System.EventHandler(this.videoCalling_Click);
             // 
             // MainIP
             // 
@@ -213,7 +230,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private DevComponents.DotNetBar.StyleManager styleManager1;
-        private System.Windows.Forms.Button videoCalling;
+        private System.Windows.Forms.Button videoCall;
+        private System.Windows.Forms.Button remote;
     }
 }
 

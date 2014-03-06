@@ -10,18 +10,20 @@ using System.Net;
 namespace SEN_Project_v1
 {
     public class RTPHelper
+
     {
+     
         public RtpSender rtpSender;
         public RtpSession rtpSession;
-        VideoChatting form;
+        System.Windows.Forms.PictureBox pc;
         IPEndPoint remoteIP;
         IPAddress localIP;
-        public RTPHelper (VideoChatting vc,IPEndPoint ip,PayloadType type)
+        public RTPHelper (System.Windows.Forms.PictureBox pc,IPEndPoint ip,PayloadType type)
         {
             remoteIP = ip;
         
             AttachEventHandler();
-            form = vc;
+            this.pc = pc;
             ConnectSession(type);
             
            
@@ -35,11 +37,13 @@ namespace SEN_Project_v1
            
             rtpSender = rtpSession.CreateRtpSenderFec(name, type, null, 0, 1);
             localIP=rtpSession.Participant(cname).IPAddress;
-            waveProvider = new BufferedWaveProvider(new WaveFormat(44100, 2));
-            waveProvider.DiscardOnBufferOverflow = true;
-            waveOut = new DirectSoundOut();
-            waveOut.Init(waveProvider);
-                        
+            if (type != PayloadType.JPEG)
+            {
+                waveProvider = new BufferedWaveProvider(new WaveFormat(44100, 2));
+                waveProvider.DiscardOnBufferOverflow = true;
+                waveOut = new DirectSoundOut();
+                waveOut.Init(waveProvider);
+            }            
         }
         public void AttachEventHandler()
         {
@@ -72,7 +76,7 @@ namespace SEN_Project_v1
         void RtpStream_FrameReceived(object sender, RtpStream.FrameReceivedEventArgs ea)
         {
 
-
+            
 
             if (ea.RtpStream.Properties.Name == localIP.ToString())
             {
@@ -83,11 +87,12 @@ namespace SEN_Project_v1
                    
                     Byte[] buffer = new Byte[4];
                     ms.Read(buffer, 0, 4);
-                     sizeBytes = BitConverter.ToInt32(buffer, 0);
-                    System.Diagnostics.Debug.WriteLine("Data" + sizeBytes);
+                    sizeBytes = BitConverter.ToInt32(buffer, 0);
+                  
                     Byte[] image = new Byte[sizeBytes];
                     ms.Read(image, 0, image.Length);
-                    form.pictureBox_rec.Image = Image.FromStream(new System.IO.MemoryStream(image));
+                    pc.Image = Image.FromStream(new System.IO.MemoryStream(image));
+                    pc.Size = pc.Image.Size;
                 }
                  if (ea.RtpStream.PayloadType == PayloadType.dynamicAudio || ea.RtpStream.PayloadType==PayloadType.Chat)
                 {
@@ -104,6 +109,7 @@ namespace SEN_Project_v1
                     }
 
                 }
+
             }
         }
 

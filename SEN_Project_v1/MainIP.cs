@@ -88,6 +88,9 @@ namespace SEN_Project_v1
 
                     sendBroadcastMsg("<#Connect#>" + Environment.MachineName);
                     Thread.Sleep(1000 * REFRESHINTERVAL);
+                    sendingClient.Connect(new IPEndPoint(IPAddress.Parse("10.100.91.42"),PORT) );
+                    string data = "<#Connect#>" + Environment.MachineName;
+                    sendingClient.Send(Encoding.ASCII.GetBytes(data), data.Length);
                 }            
             }));
             tMemberRetriving.Start();
@@ -645,7 +648,6 @@ namespace SEN_Project_v1
             MainPanel.Controls.Add(fileNameButton);
         }
         #endregion
-
         private void videoCalling_Click(object sender, EventArgs e)
         {
             if (l_selectedaddress.Keys.Count > 0)
@@ -653,6 +655,13 @@ namespace SEN_Project_v1
                 new VideoChatting(new IPEndPoint(l_selectedaddress.Keys.First(), VCALL_PORT)).ShowDialog();
             }
 
+        }
+        private void remote_Click(object sender, EventArgs e)
+        {
+            if (l_selectedaddress.Keys.Count ==1)
+            {
+                new Remote(new IPEndPoint(l_selectedaddress.Keys.First(), VCALL_PORT)).Show();
+            }
         }
 
 

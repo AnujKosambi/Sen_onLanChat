@@ -15,7 +15,7 @@ namespace SEN_Project_v1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainIP());
+            Application.Run(new MainIP()) ;
         }
     }
 }
